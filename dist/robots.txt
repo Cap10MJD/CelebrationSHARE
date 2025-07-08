@@ -1,0 +1,56 @@
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://celebrationShare.com/sitemap.xml
+
+# Crawl delay (optional - be respectful to servers)
+Crawl-delay: 1
+
+# Disallow admin and private areas (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow important pages for event rentals
+Allow: /browse
+Allow: /list-item
+Allow: /signup
+Allow: /login
+Allow: /profile
+Allow: /chat
+Allow: /safety
+Allow: /verification
+Allow: /help
+Allow: /contact
+Allow: /about
+Allow: /privacy
+Allow: /terms
+
+# Allow category pages
+Allow: /browse?category=*
+Allow: /browse?search=*
+
+# Allow item detail pages
+Allow: /item/* 
