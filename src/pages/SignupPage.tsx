@@ -156,15 +156,20 @@ const SignupPage: React.FC = () => {
   const handleSignup = async () => {
     setLoading(true);
     try {
+      console.log('Starting signup process...');
+      
       // Upload profile picture to Firebase Storage
       let profilePictureUrl = '';
       if (formData.profilePicture) {
+        console.log('Uploading profile picture...');
         const userId = `user_${Date.now()}`;
         profilePictureUrl = await uploadProfilePicture(formData.profilePicture, userId);
+        console.log('Profile picture uploaded:', profilePictureUrl);
       }
 
       // Create user profile in Firestore
       const userId = `user_${Date.now()}`;
+      console.log('Creating user profile in Firestore...');
       await createUserProfile({
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -174,11 +179,17 @@ const SignupPage: React.FC = () => {
         userType: formData.userType,
         birthday: formData.birthday,
       }, profilePictureUrl);
+      console.log('User profile created successfully');
+      
+      // Save user ID to localStorage
+      localStorage.setItem('celebrationshare_user_id', userId);
       
       // Start verification process
+      console.log('Starting verification process...');
       await startVerification(userId);
       
       // Navigate to verification page
+      console.log('Navigating to verification page...');
       navigate('/verification', { 
         state: { 
           message: 'Account created successfully! Please complete your verification to start using the platform.',
@@ -186,7 +197,8 @@ const SignupPage: React.FC = () => {
         } 
       });
     } catch (error) {
-      setErrors({ email: 'An error occurred during signup. Please try again.' });
+      console.error('Signup error:', error);
+      setErrors({ email: `An error occurred during signup: ${error instanceof Error ? error.message : 'Unknown error'}` });
     } finally {
       setLoading(false);
     }

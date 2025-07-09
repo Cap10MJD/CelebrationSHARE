@@ -4,14 +4,13 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 // Your Firebase configuration
-// Replace these values with your actual Firebase config from the Firebase Console
 const firebaseConfig = {
-  apiKey: "your-api-key-here",
+  apiKey: "AIzaSyCSNDN7q1JfranCWSVRgOmsblwIDR8yl-g",
   authDomain: "celebrationshare.firebaseapp.com",
   projectId: "celebrationshare",
-  storageBucket: "celebrationshare.appspot.com",
-  messagingSenderId: "your-messaging-sender-id",
-  appId: "your-app-id"
+  storageBucket: "celebrationshare.firebasestorage.app",
+  messagingSenderId: "934971178625",
+  appId: "1:934971178625:web:3d2627b27fd8ea81655780"
 };
 
 // Initialize Firebase

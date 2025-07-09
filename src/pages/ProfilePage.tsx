@@ -21,9 +21,12 @@ const ProfilePage = () => {
   // Load user profile from Firebase
   const loadUserProfile = async () => {
     try {
-      // For demo purposes, using a hardcoded user ID
-      // In a real app, this would come from authentication
-      const userId = 'demo_user_123';
+      // Get user ID from localStorage
+      const userId = localStorage.getItem('celebrationshare_user_id');
+      if (!userId) {
+        setUser(getDemoUserData());
+        return;
+      }
       const userProfile = await getUserProfile(userId);
       
       if (userProfile) {
@@ -155,16 +158,18 @@ const ProfilePage = () => {
     if (file) {
       try {
         // Upload to Firebase Storage
-        const userId = 'demo_user_123'; // In real app, get from auth
+        const userId = localStorage.getItem('celebrationshare_user_id');
+        if (!userId) return;
         const imageUrl = await uploadProfilePicture(file, userId);
         
         // Update profile in Firebase
         await updateProfilePictureUrl(userId, imageUrl);
         
         // Update local state
-        setUser(prev => ({
+        setUser((prev: any) => ({
           ...prev,
-          avatar: imageUrl
+          avatar: imageUrl,
+          profilePictureUrl: imageUrl
         }));
         
         setProfilePicture(file);

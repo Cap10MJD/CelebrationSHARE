@@ -5,6 +5,7 @@ import QRCodeGenerator from './components/QRCodeGenerator';
 import TermsPage from './pages/TermsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import SignupPage from './pages/SignupPage';
+import VerificationPage from './pages/VerificationPage';
 import AffiliateProgramPage from './pages/AffiliateProgramPage';
 import AdminFeePage from './pages/AdminFeePage';
 import PricingPage from './pages/PricingPage';
@@ -833,6 +834,7 @@ function App() {
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/admin/fees" element={<AdminFeePage />} />
             <Route path="/admin/chat-analytics" element={<ChatAnalyticsPage />} />
+            <Route path="/verification" element={<VerificationPage />} />
           </Routes>
         </main>
         
