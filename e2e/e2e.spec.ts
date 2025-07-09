@@ -137,4 +137,4 @@ test.describe('CelebrationSHARE E2E - Mobile', () => {
     // await page.click('[data-testid="mobile-chat-send"]');
     // await expect(page.locator('[data-testid="mobile-chat-message-text"]', { hasText: 'Hello from mobile!' })).toBeVisible();
   });
-});   npx playwright test
+});

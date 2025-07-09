@@ -96,6 +96,8 @@ const MobileChat: React.FC = () => {
     try {
       const roomMessages = await getChatMessages(roomId);
       setMessages(roomMessages);
+    } catch (error) {
+      console.error('Failed to load messages:', error);
     }
   };
 
@@ -107,6 +109,8 @@ const MobileChat: React.FC = () => {
       try {
         const profile = await getUserProfile(otherUserId);
         setOtherUser(profile);
+      } catch (error) {
+        console.error('Failed to load user profile:', error);
       }
     }
   };
@@ -118,6 +122,8 @@ const MobileChat: React.FC = () => {
         setChatRooms(prev => prev.map(room => 
           room.id === selectedRoom.id ? { ...room, unreadCount: 0 } : room
         ));
+      } catch (error) {
+        console.error('Failed to mark messages as read:', error);
       }
     }
   };
@@ -170,6 +176,9 @@ const MobileChat: React.FC = () => {
       setReportReason('');
       setSelectedMessage(null);
       alert('Message reported successfully. Our safety team will review it.');
+    } catch (error) {
+      console.error('Failed to report message:', error);
+      alert('Failed to report message. Please try again.');
     }
   };
 
@@ -180,6 +189,9 @@ const MobileChat: React.FC = () => {
       try {
         await blockUser(currentUserId, otherUser.userId);
         alert('User blocked successfully.');
+      } catch (error) {
+        console.error('Failed to block user:', error);
+        alert('Failed to block user. Please try again.');
       }
     }
   };

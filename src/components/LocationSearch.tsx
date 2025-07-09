@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   MapPin, 
-  Search, 
   X, 
   Navigation, 
   Globe, 
@@ -13,7 +12,6 @@ import {
 } from 'lucide-react';
 import { 
   searchLocations, 
-  getLocationSuggestions, 
   getPopularLocations,
   getLocationByCoordinates,
   type Location,

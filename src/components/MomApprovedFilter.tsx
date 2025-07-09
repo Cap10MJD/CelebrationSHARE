@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Shield, Baby, Users, Star, CheckCircle } from 'lucide-react';
+import { Heart, Shield, Baby, Star, CheckCircle } from 'lucide-react';
 
 interface MomApprovedItem {
   id: string;

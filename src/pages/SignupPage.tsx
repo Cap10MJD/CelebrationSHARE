@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Shield, Heart, CheckCircle, ArrowRight, Lock, Mail, Phone, MapPin, Calendar, AlertTriangle } from 'lucide-react';
 import { startVerification } from '../services/verificationService';
+import { uploadProfilePicture, createUserProfile } from '../services/profileService';
+import ProfilePictureUpload from '../components/ProfilePictureUpload';
 
 interface SignupForm {
   firstName: string;
@@ -19,6 +21,7 @@ interface SignupForm {
   parentalConsent: boolean;
   parentEmail: string;
   parentName: string;
+  profilePicture: File | null;
 }
 
 const SignupPage: React.FC = () => {
@@ -39,13 +42,14 @@ const SignupPage: React.FC = () => {
     agreeToPrivacy: false,
     parentalConsent: false,
     parentEmail: '',
-    parentName: ''
+    parentName: '',
+    profilePicture: null
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [showParentalConsent, setShowParentalConsent] = useState(false);
 
-  const handleInputChange = (field: keyof SignupForm, value: string | boolean) => {
+  const handleInputChange = (field: keyof SignupForm, value: string | boolean | File | null) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
     if (errors[field]) {
@@ -55,6 +59,10 @@ const SignupPage: React.FC = () => {
         return newErrors;
       });
     }
+  };
+
+  const handleProfilePictureSelect = (file: File | null) => {
+    handleInputChange('profilePicture', file);
   };
 
   const calculateAge = (birthday: string): number => {
@@ -148,12 +156,26 @@ const SignupPage: React.FC = () => {
   const handleSignup = async () => {
     setLoading(true);
     try {
-      // In a real app, you'd create the user account here
-      // For now, we'll simulate the process
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Upload profile picture to Firebase Storage
+      let profilePictureUrl = '';
+      if (formData.profilePicture) {
+        const userId = `user_${Date.now()}`;
+        profilePictureUrl = await uploadProfilePicture(formData.profilePicture, userId);
+      }
+
+      // Create user profile in Firestore
+      const userId = `user_${Date.now()}`;
+      await createUserProfile({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        location: formData.location,
+        userType: formData.userType,
+        birthday: formData.birthday,
+      }, profilePictureUrl);
       
       // Start verification process
-      const userId = `user_${Date.now()}`;
       await startVerification(userId);
       
       // Navigate to verification page
@@ -348,6 +370,65 @@ const SignupPage: React.FC = () => {
                 </div>
               </div>
 
+              {/* Profile Picture Upload */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-primary mb-4">Profile Picture</label>
+                <ProfilePictureUpload
+                  onImageSelect={handleProfilePictureSelect}
+                  className="max-w-md mx-auto"
+                />
+                <p className="text-sm text-gray-500 text-center mt-2">
+                  Adding a profile picture helps build trust in our community
+                </p>
+              </div>
+
+              {/* User Type Selection */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-primary mb-4">How will you use CelebrationShare?</label>
+                <div className="grid md:grid-cols-3 gap-4">
+                  {userTypeOptions.map((option) => {
+                    const Icon = option.icon;
+                    return (
+                      <div
+                        key={option.id}
+                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                          formData.userType === option.id
+                            ? 'border-primary bg-primary/5'
+                            : 'border-secondary hover:border-primary/50'
+                        }`}
+                        onClick={() => handleInputChange('userType', option.id as 'renter' | 'owner' | 'both')}
+                      >
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                            formData.userType === option.id ? 'bg-primary text-white' : 'bg-secondary text-primary'
+                          }`}>
+                            <Icon className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-primary">{option.title}</h3>
+                            <p className="text-sm text-text">{option.description}</p>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <div className="text-xs text-accent font-medium">
+                            Verification: {option.verificationRequired}
+                          </div>
+                          <ul className="text-xs text-text space-y-1">
+                            {option.features.map((feature, index) => (
+                              <li key={index} className="flex items-center gap-1">
+                                <CheckCircle className="w-3 h-3 text-accent" />
+                                {feature}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Parental Consent Section */}
               {showParentalConsent && (
                 <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
@@ -408,41 +489,6 @@ const SignupPage: React.FC = () => {
                   </div>
                 </div>
               )}
-
-              {/* User Type Selection */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-primary mb-4">How will you use CelebrationShare?</h3>
-                <div className="grid md:grid-cols-3 gap-4">
-                  {userTypeOptions.map((option) => (
-                    <div
-                      key={option.id}
-                      className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                        formData.userType === option.id
-                          ? 'border-accent bg-rose-50'
-                          : 'border-secondary hover:border-accent'
-                      }`}
-                      onClick={() => handleInputChange('userType', option.id)}
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        <option.icon className="w-6 h-6 text-accent" />
-                        <h4 className="font-semibold text-primary">{option.title}</h4>
-                      </div>
-                      <p className="text-sm text-text mb-3">{option.description}</p>
-                      <div className="text-xs text-accent font-medium mb-2">
-                        {option.verificationRequired}
-                      </div>
-                      <ul className="text-xs text-text space-y-1">
-                        {option.features.map((feature, index) => (
-                          <li key={index} className="flex items-center gap-1">
-                            <CheckCircle className="w-3 h-3 text-green-500" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
               <div className="flex justify-end">
                 <button
