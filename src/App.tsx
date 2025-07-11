@@ -835,6 +835,7 @@ function App() {
             <Route path="/admin/fees" element={<AdminFeePage />} />
             <Route path="/admin/chat-analytics" element={<ChatAnalyticsPage />} />
             <Route path="/verification" element={<VerificationPage />} />
+            <Route path="/test" element={<div>Test route works!</div>} />
           </Routes>
         </main>
         
