@@ -10,7 +10,11 @@ export interface SupportTicket {
     orderId?: string;
     issue?: string;
   };
-  chatHistory: any[];
+  chatHistory: Array<{
+    sender: string;
+    text: string;
+    timestamp: Date;
+  }>;
   createdAt: Date;
   priority: 'low' | 'normal' | 'high' | 'urgent';
   status: 'open' | 'in_progress' | 'resolved' | 'closed';
@@ -25,7 +29,7 @@ export interface EmailTemplate {
 }
 
 // Support ticket storage (in production, this would be a database)
-let supportTickets: SupportTicket[] = [];
+const supportTickets: SupportTicket[] = [];
 
 // Email templates
 const emailTemplates = {
@@ -157,7 +161,11 @@ const getPriorityColor = (priority: string): string => {
 export const createSupportTicket = async (
   sessionId: string,
   userData: SupportTicket['userData'],
-  chatHistory: any[]
+  chatHistory: Array<{
+    sender: string;
+    text: string;
+    timestamp: Date;
+  }>
 ): Promise<SupportTicket> => {
   const ticket: SupportTicket = {
     id: `TICKET_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,

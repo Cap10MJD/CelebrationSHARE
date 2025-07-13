@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageSquare, Shield, Bell, X } from 'lucide-react';
-import { getChatRooms, type ChatRoom } from '../services/chatService';
+import { MessageSquare, Shield, X } from 'lucide-react';
+import { getChatRooms } from '../services/chatService';
 
 interface ChatNotificationProps {
   userId: string;

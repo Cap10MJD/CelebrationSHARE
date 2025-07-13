@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X, Shield, User, Heart, Bell, Home, Grid3X3, Plus, Smartphone, MessageSquare, Phone } from 'lucide-react';
+import { Search, X, Shield, User, Heart, Bell, Home, Grid3X3, Plus, Smartphone, MessageSquare, Phone } from 'lucide-react';
 import QRCodeGenerator from './QRCodeGenerator';
 import ContactSupport from './ContactSupport';
 
@@ -162,7 +162,7 @@ const MobileHeader = () => {
               <QRCodeGenerator
                 url="http://192.168.6.121:5173"
                 title="Scan for Mobile App"
-                description="Point your phone camera at this QR code to open the mobile app"
+                subtitle="Point your phone camera at this QR code to open the mobile app"
                 size={180}
               />
             </div>

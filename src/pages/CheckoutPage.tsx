@@ -49,7 +49,15 @@ export default function CheckoutPage() {
 
       try {
         // Get rental dates from navigation state
-        const state = location.state as { rentalDates?: any; itemData?: Item } | null;
+        interface CheckoutState {
+  rentalDates?: {
+    start: Date;
+    end: Date;
+  };
+  itemData?: Item;
+}
+
+const state = location.state as CheckoutState | null;
         if (state?.rentalDates) {
           setRentalDates(state.rentalDates);
         }
@@ -115,7 +123,16 @@ export default function CheckoutPage() {
     return feeCalculation.rentalAmount + feeCalculation.platformFee + paymentAmounts.service_fee + paymentAmounts.insurance_fee + securityDeposit;
   };
 
-  const handlePaymentSuccess = async (paymentIntent: any) => {
+  interface PaymentIntent {
+  id: string;
+  status: string;
+  amount: number;
+  currency: string;
+  created: number;
+  payment_method: string;
+}
+
+const handlePaymentSuccess = async (paymentIntent: PaymentIntent) => {
     setPaymentSuccess(true);
     
     // Record the commission transaction

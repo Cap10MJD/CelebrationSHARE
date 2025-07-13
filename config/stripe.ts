@@ -1,7 +1,7 @@
 import { loadStripe } from '@stripe/stripe-js';
 
 // Stripe publishable key must be set in environment variables
-const STRIPE_PUBLISHABLE_KEY = (import.meta as any).env?.VITE_STRIPE_PUBLISHABLE_KEY;
+const STRIPE_PUBLISHABLE_KEY = (import.meta as { env?: { VITE_STRIPE_PUBLISHABLE_KEY?: string } }).env?.VITE_STRIPE_PUBLISHABLE_KEY;
 
 if (!STRIPE_PUBLISHABLE_KEY) {
   throw new Error('VITE_STRIPE_PUBLISHABLE_KEY environment variable is required');
@@ -49,7 +49,7 @@ export const commissionConfig = {
   minCommission: 200, // $2.00 minimum commission
   maxCommission: 5000, // $50.00 maximum commission
 };
-
+// This is a test comment for Cursor to GitHub
 // Fee transparency configuration
 export const feeTransparencyConfig = {
   traditionalRentalMarkup: 0.40, // 40% markup for traditional rental companies

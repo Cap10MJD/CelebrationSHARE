@@ -15,6 +15,43 @@ interface PaymentIntentResponse {
   status: string;
 }
 
+interface PaymentMethod {
+  id: string;
+  type: string;
+  card?: {
+    brand: string;
+    last4: string;
+  };
+}
+
+interface PaymentResult {
+  id: string;
+  status: string;
+  amount: number;
+  currency: string;
+  created: number;
+  payment_method: string;
+}
+
+interface PaymentHistoryItem {
+  id: string;
+  amount: number;
+  currency: string;
+  status: string;
+  created: number;
+  description: string;
+  itemId: string;
+}
+
+interface RefundResult {
+  id: string;
+  amount: number;
+  currency: string;
+  status: string;
+  payment_intent: string;
+  created: number;
+}
+
 // Mock payment intent creation
 export const createPaymentIntent = async (data: PaymentIntentRequest): Promise<PaymentIntentResponse> => {
   // Simulate API delay
@@ -49,7 +86,7 @@ export const createPaymentIntent = async (data: PaymentIntentRequest): Promise<P
 };
 
 // Mock payment confirmation
-export const confirmPayment = async (clientSecret: string, paymentMethod: any): Promise<any> => {
+export const confirmPayment = async (clientSecret: string, paymentMethod: PaymentMethod): Promise<PaymentResult> => {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -72,7 +109,7 @@ export const confirmPayment = async (clientSecret: string, paymentMethod: any): 
 
 // Demo payment history for demonstration purposes
 // In production, this would be fetched from the actual payment system
-export const getPaymentHistory = async (): Promise<any[]> => {
+export const getPaymentHistory = async (): Promise<PaymentHistoryItem[]> => {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -99,7 +136,7 @@ export const getPaymentHistory = async (): Promise<any[]> => {
 };
 
 // Mock refund creation
-export const createRefund = async (paymentIntentId: string, amount?: number): Promise<any> => {
+export const createRefund = async (paymentIntentId: string, amount?: number): Promise<RefundResult> => {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000));
 

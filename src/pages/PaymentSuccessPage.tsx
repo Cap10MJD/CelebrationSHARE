@@ -10,7 +10,29 @@ interface PaymentSuccessState {
 export default function PaymentSuccessPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [rentalDetails, setRentalDetails] = useState<any>(null);
+  interface RentalDetails {
+  paymentId: string;
+  itemId: string;
+  item: {
+    title: string;
+    image: string;
+    owner: {
+      name: string;
+      email: string;
+      phone: string;
+    };
+    location: string;
+    rentalDates: {
+      start: string;
+      end: string;
+    };
+    pickupTime: string;
+    returnTime: string;
+  };
+  total: number;
+}
+
+const [rentalDetails, setRentalDetails] = useState<RentalDetails | null>(null);
 
   useEffect(() => {
     // Get payment details from location state

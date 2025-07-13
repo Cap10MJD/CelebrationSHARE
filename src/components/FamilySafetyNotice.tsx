@@ -3,13 +3,10 @@ import {
   Heart, 
   Shield, 
   Users, 
-  CheckCircle, 
   X, 
   Info,
-  Star,
   Lock,
-  Eye,
-  Bell
+  Eye
 } from 'lucide-react';
 
 interface FamilySafetyNoticeProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Baby, Heart, Shield, CheckCircle, AlertTriangle, Info } from 'lucide-react';
+import { Baby, Shield, CheckCircle, AlertTriangle } from 'lucide-react';
 
 interface ChildSafeIndicatorProps {
   isChildSafe: boolean;

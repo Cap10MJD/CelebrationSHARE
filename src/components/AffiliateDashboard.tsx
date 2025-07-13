@@ -1,9 +1,33 @@
 import React, { useState } from 'react';
 
+// Add type definitions for stats, recentReferrals, and earningsHistory
+
+type Stats = {
+  totalReferrals: number;
+  activeReferrals: number;
+  totalEarnings: number;
+  thisMonth: number;
+  conversionRate: number;
+  averageCommission: number;
+};
+
+type Referral = {
+  name: string;
+  date: string;
+  status: string;
+  earnings: number;
+};
+
+type EarningsHistory = {
+  month: string;
+  amount: number;
+  referrals: number;
+};
+
 const AffiliateDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'referrals' | 'earnings' | 'materials'>('overview');
 
-  const stats = {
+  const stats: Stats = {
     totalReferrals: 23,
     activeReferrals: 18,
     totalEarnings: 1247.50,
@@ -12,7 +36,7 @@ const AffiliateDashboard: React.FC = () => {
     averageCommission: 54.24
   };
 
-  const recentReferrals = [
+  const recentReferrals: Referral[] = [
     { name: 'Sarah Johnson', date: '2024-01-15', status: 'Active', earnings: 45.00 },
     { name: 'Mike Chen', date: '2024-01-14', status: 'Active', earnings: 32.50 },
     { name: 'Lisa Rodriguez', date: '2024-01-13', status: 'Pending', earnings: 0 },
@@ -20,7 +44,7 @@ const AffiliateDashboard: React.FC = () => {
     { name: 'Emma Wilson', date: '2024-01-11', status: 'Active', earnings: 28.75 }
   ];
 
-  const earningsHistory = [
+  const earningsHistory: EarningsHistory[] = [
     { month: 'Jan 2024', amount: 342.80, referrals: 6 },
     { month: 'Dec 2023', amount: 298.45, referrals: 5 },
     { month: 'Nov 2023', amount: 456.20, referrals: 8 },
@@ -69,7 +93,7 @@ const AffiliateDashboard: React.FC = () => {
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'overview' | 'referrals' | 'earnings' | 'materials')}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === tab.id
                   ? 'border-blue-500 text-blue-600'

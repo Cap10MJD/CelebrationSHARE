@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import QRCodeGenerator from './components/QRCodeGenerator';
 import TermsPage from './pages/TermsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import SignupPage from './pages/SignupPage';
+import VerificationPage from './pages/VerificationPage';
 import AffiliateProgramPage from './pages/AffiliateProgramPage';
 import AdminFeePage from './pages/AdminFeePage';
 import PricingPage from './pages/PricingPage';
@@ -15,7 +16,6 @@ import CommunityRecommendations from './components/CommunityRecommendations';
 import SustainabilityTracker from './components/SustainabilityTracker';
 import MomApprovedFilter from './components/MomApprovedFilter';
 import CustomerSupportChat from './components/CustomerSupportChat';
-import { updatePageSEO, getEventRentalSEO } from './services/seoService';
 
 // Simple placeholder components with enhanced styling
 const HomePage = () => (
@@ -834,6 +834,8 @@ function App() {
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/admin/fees" element={<AdminFeePage />} />
             <Route path="/admin/chat-analytics" element={<ChatAnalyticsPage />} />
+            <Route path="/verification" element={<VerificationPage />} />
+            <Route path="/test" element={<div>Test route works!</div>} />
           </Routes>
         </main>
         

@@ -9,8 +9,7 @@ import {
   Send,
   AlertTriangle,
   CheckCircle,
-  User,
-  FileText
+  User
 } from 'lucide-react';
 
 interface ContactSupportProps {
